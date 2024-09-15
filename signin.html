@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Culinary School Booking</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="index.html">
+    <style>
+     form {
+        width: 70%;
+        margin: auto;
+      }
+      span {
+        font-size: 0.7em;
+        color: red;
+        margin: 5px 0;
+      }
+      input,
+      select {
+        padding: 10px;
+        border: 3px rgba(0, 0, 0, 0.622) solid;
+      }
+      label {
+        margin: 5px 0;
+        font-size: 0.8em;
+      }
+      button {
+        margin: 10px 0;
+        padding: 10px;
+      }
+      #summary {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ccc;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .modal {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 35%;
+        padding: 20px;
+        min-height: 350px;
+        position: absolute;
+        z-index: 2;
+        top: 30%;
+        left: 31%;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 15px;
+      }           
+      .modal .fd {
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+      }
+      button {
+        cursor: pointer;
+        border: none;
+        font-weight: 600;
+      }
+        
+      .btn {  
+        padding: 0.8rem 1.4rem;
+        font-weight: 700;
+        background-color: black;
+        color: white;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 1em;
+      }
+      .btn-open {
+        bottom: 150px;
+      }
+      .btn-close {
+        padding: 0.5rem 0.7rem;
+        background: #eee;
+        border-radius: 50%;
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 1;
+      }
+      .hidden {
+        display: none;
+      }
+      .str8 {
+        display: flex !important;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        justify-content: start;
+        margin: 10px 0;
+      }
+      .recent {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+      .btn1 {
+        text-decoration: none;
+        padding: 20px;
+        font-size: 1.3em;
+      }
+      .btn1 a {
+        text-decoration: none;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="grid three-col" style="display: flex; flex-direction: column; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div style="display: flex; align-items: center; font-size: 2.5em; padding: 20px;">
+          <img src="https://html.modernwebtemplates.com/muka/images/logo.png" alt="">
+          <p>BILLING</p>
+      </div>
+      <div style="display: flex; flex-direction:row; justify-content:space-evenly; width: 80%; margin: auto; align-items: center; font-size: 1.7em; padding: 10px 0;">
+          <a style="text-decoration: none; color: black;" href="index.html">HOME</a>
+          <p>PROGRAMS</p>
+          <p>CONTACTS</p>
+          <p>FEATURES</p>
+      </div>
+      <div style="display: flex; align-items: center;" class="btn1">
+          <button class="btn1"><a href="index.html">HOME</a></button>
+      </div>
+  </nav>
+    <div style="border: 1px solid rgba(128, 128, 128, 0.54); border-radius: 10px; padding: 40px 0; width: 50%; margin: auto; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+      <div style="display: flex; flex-direction: column; align-items: center;" class="time">
+        <span>PLEASE REGISTER NOW</span>
+        <p>Our Form for Enrollment</p>
+        <img src="https://muka.codelayers.net/images/icon-main2.png" alt="">
+    </div>
+      <div>
+        <form id="myForm">
+          <div id="first">
+            <label for="firstName">First Name *</label>
+            <input type="text" id="firstName" />
+            <span id="firstNameErr"></span>
+          </div>
+          <div>
+            <label for="lastName">Last Name *</label>
+            <input type="text" id="lastName" />
+            <span id="lastNameErr"></span>
+          </div>
+          <div style="display: flex; justify-content: space-between">
+            <div>
+              <label for="email">Email *</label>
+              <input type="text" id="email" />
+              <span id="emailErr"></span>
+            </div>
+            <div>
+              <label for="phonenum">Phone Number *</label>
+              <input type="number" id="phonenum" />
+              <span id="phonenumErr"></span>
+            </div>
+          </div>
+          <!-- Age and Gender -->
+          <section>
+            <div>
+              <label for="age">Age *</label>
+              <input type="date" id="age" />
+              <span id="ageErr"></span>
+            </div>
+            <div>
+              <label for="gender">Gender *</label>
+              <select id="gender">
+                <option value=""></option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              <span id="genderErr"></span>
+            </div>
+          </section>
+          <!-- Parent/Sponsor Details (if minor) -->
+          <div>
+            <label for="parentFullName">Parent/Sponsor Full Name *</label>
+            <input type="text" id="parentFullName" />
+            <span id="parentFullNameErr"></span>
+          </div>
+          <section>
+            <div>
+              <label for="parentPhone">Parent/Sponsor Phone *</label>
+              <input type="number" id="parentPhone" />
+              <span id="parentPhoneErr"></span>
+            </div>
+            <div>
+              <label for="parentEmail">Parent/Sponsor Email *</label>
+              <input type="text" id="parentEmail" />
+              <span id="parentEmailErr"></span>
+            </div>
+          </section>
+          <!-- Class Date, Type, Availability -->
+          <div>
+            <label for="preferredDate">Preferred Start Date *</label>
+            <input type="date" id="preferredDate" />
+            <span id="preferredDateErr"></span>
+          </div>
+          <section>
+            <div>
+              <label for="classType">Class Type *</label>
+              <select id="classType">
+                <option value=""></option>
+                <option value="baking">Baking</option>
+                <option value="italian">Italian Cuisine</option>
+                <option value="vegetarian">Vegetarian</option>
+              </select>
+              <span id="classTypeErr"></span>
+            </div>
+            <div>
+              <label for="classAvail">Class Availability *</label>
+              <select id="classAvail">
+                <option value=""></option>
+                <option value="classone">Class One</option>
+                <option value="classtwo">Class Two</option>
+                <option value="classthree">Class Three</option>
+              </select>
+              <span id="classAvailErr"></span>
+            </div>
+          </section>
+          <!-- Number of Participants -->
+          <div>
+            <label for="numberOfPer">Number of Participants *</label>
+            <input type="number" id="numberOfPer" />
+            <span id="numberOfPerErr"></span>
+          </div>
+          <div class="modal hidden">
+            <div class="fd">
+                <button class="btn-close">X</button>
+            </div>
+            <div id="summary">
+            </div>
+        </div>
+        <div class="hidden overlay"></div>
+        <button type="submit" class="btn btn-open">Apply</button>
+          <!-- <button type="submit">Apply Now</button>
+          <div id="summary"></div> -->
+        </form>
+      </div>
+    </div>
+    <footer style="padding-top: 40px;">
+      <div class="footer-bg">
+          <div class="overlay1">
+              <div class="grid three_row">
+                  <div>
+                      <div style="display: flex; align-items: center;justify-content: center; font-size: 2.5em;">
+                          <img src="https://html.modernwebtemplates.com/muka/images/logo.png" alt="">
+                          <p>BILLING</p>
+                      </div>
+                      <p style="margin: 30px 0;">Our Cooking School features a long and proud history of more than 100 years. Founded at the end of the XIXth century.</p>
+                      <div class="str8">
+                          <i class="fa-solid fa-user call"></i>
+                          <span class="call1">828 Curtis Ferry, New York, USA</span>
+                      </div>
+                      <div class="str8">
+                          <i class="fa-solid fa-user call"></i>
+                          <span class="call1">+8 (800) 238 3597 (admin)</span>
+                      </div>
+                      <div class="str8">
+                          <i class="fa-solid fa-user call"></i>
+                          <span class="call1">muka_office@example.com</span>
+                      </div>
+                      <div class="str8">
+                          <i class="fa-solid fa-user call"></i>
+                          <span class="call1">www.muka_cooking.com</span>
+                      </div>
+                  </div>
+                  <div>
+                      <div style="display: flex; align-items: center; justify-content: center; padding-top: 50px;">
+                          <p style="font-size: 2em;">Recent Posts</p>
+                      </div>
+                      <div class="rec" style="padding-top: 50px;">
+                          <div class="recent">
+                              <div class="recent1">
+                                  <img src="https://muka.codelayers.net/images/img-01.jpg" alt="">
+                              </div>
+                              <div class="recent2">
+                                  <p>How To Cook A Tender Juicy Steak</p>
+                              <div style="display: flex; flex-direction: row; align-items: center; margin-top: 10px; gap: 10px; justify-content: start;">
+                                  <i class="fa-regular fa-calendar-days call"></i>
+                                  <span class="call1">20 september 2023</span>
+                              </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="rec" style="padding-top: 10px;">
+                          <div style="display: flex; gap: 20px;" class="recent">
+                          <div class="recent1">
+                              <img src="https://muka.codelayers.net/images/img-01.jpg" alt="">
+                          </div>
+                          <div class="recent2">
+                              <p>How To Cook A Tender Juicy Steak</p>
+                          <div style="display: flex; align-items: center; margin-top: 10px; justify-content: start; flex-direction: row; gap: 10px;">
+                              <i class="fa-regular fa-calendar-days call"></i>
+                              <span class="call1">20 september 2023</span>
+                          </div>
+                          </div>
+                      </div>
+                      </div>
+                      <div class="rec" style="padding-top: 10px;">
+                          <div style="display: flex; gap: 20px;" class="recent">
+                          <div class="recent1">
+                              <img src="https://muka.codelayers.net/images/img-01.jpg" alt="">
+                          </div>
+                          <div class="recent2">
+                              <p>How To Cook A Tender Juicy Steak</p>
+                          <div style="display: flex; align-items: center; margin-top: 10px; flex-direction: row; justify-content: start; gap: 10px;">
+                              <i class="fa-regular fa-calendar-days call"></i>
+                              <span class="call1">20 september 2023</span>
+                          </div>
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+                  <div>
+                      <div style="display: flex; align-items: center; justify-content: center; padding-bottom: 50px;">
+                          <p style="font-size: 2em;">Subscribe Now</p>
+                      </div>
+                      <div class="mail">
+                          <p>Enter Email here to be updated. We promise not to send you spam!</p>
+                          <input type="email" placeholder="EMAIL">
+                          <button>SUBSCRIBE</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+    <script>
+      // Initializing class availability in localStorage
+      if (!localStorage.getItem("classSlots")) {
+        localStorage.setItem(
+          "classSlots",
+          JSON.stringify({
+            classone: 10,
+            classtwo: 8,
+            classthree: 6,
+          })
+        );
+      }
+
+      
+            let modal = document.querySelector(".modal");
+            let overlay = document.querySelector(".overlay");
+            let openModalBtn = document.querySelector(".btn-open");
+            let closeModalBtn = document.querySelector(".btn-close");
+
+
+      const myForm = document.getElementById("myForm");
+      const classPrices = { baking: 100, italian: 120, vegetarian: 80 };
+
+      myForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        let isValid = true;
+
+        const emailRegex = /^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+        const today = new Date().toISOString().split("T")[0];
+
+        let firstName = document.getElementById("firstName").value.trim();
+        let lastName = document.getElementById("lastName").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let phonenum = document.getElementById("phonenum").value.trim();
+        let age = document.getElementById("age").value;
+        let parentFullName = document.getElementById("parentFullName").value.trim();
+        let parentPhone = document.getElementById("parentPhone").value.trim();
+        let parentEmail = document.getElementById("parentEmail").value.trim();
+        let preferredDate = document.getElementById("preferredDate").value;
+        let numberOfPer = document.getElementById("numberOfPer").value;
+        let gender = document.getElementById("gender").value;
+        let classType = document.getElementById("classType").value;
+        let classAvail = document.getElementById("classAvail").value;
+        let classSlots = JSON.parse(localStorage.getItem("classSlots"));
+        let summary = document.getElementById("summary");
+
+        let closeModal = function () {
+            modal.classList.add("hidden");
+            overlay.classList.add("hidden");
+            };
+            closeModalBtn.addEventListener("click", closeModal);
+            overlay.addEventListener("click", closeModal);
+
+            let openModal = function () {
+            modal.classList.remove("hidden");
+            overlay.classList.remove("hidden");
+            summary.classList.add("#summary")
+            };
+            openModalBtn.addEventListener("click", openModal);
+
+
+        // Validate required fields
+        if (!firstName) {
+          document.getElementById("firstNameErr").innerText =
+            "Please input first name";
+          isValid = false;
+        } else {
+          document.getElementById("firstNameErr").innerText = "";
+        }
+
+        if (!lastName) {
+          document.getElementById("lastNameErr").innerText =
+            "Please input last name";
+          isValid = false;
+        } else {
+          document.getElementById("lastNameErr").innerText = "";
+        }
+
+        if (!email || !emailRegex.test(email)) {
+          document.getElementById("emailErr").innerText =
+            "Please input a valid email";
+          isValid = false;
+        } else {
+          document.getElementById("emailErr").innerText = "";
+        }
+
+        if (!phonenum) {
+          document.getElementById("phonenumErr").innerText =
+            "Please input a valid phone number";
+          isValid = false;
+        } else {
+          document.getElementById("phonenumErr").innerText = "";
+        }
+
+        if (!age || age > today) {
+          document.getElementById("ageErr").innerText =
+            "Please select a valid age";
+          isValid = false;
+        } else {
+          document.getElementById("ageErr").innerText = "";
+        }
+
+        if (
+          parseInt(new Date().getFullYear() - new Date(age).getFullYear()) < 18
+        ) {
+          if (!parentFullName) {
+            document.getElementById("parentFullNameErr").innerText =
+              "Guardian's name required";
+            isValid = false;
+          }
+          if (!parentPhone) {
+            document.getElementById("parentPhoneErr").innerText =
+              "Guardian's phone required";
+            isValid = false;
+          }
+          if (!parentEmail || !emailRegex.test(parentEmail)) {
+            document.getElementById("parentEmailErr").innerText =
+              "Guardian's email required";
+            isValid = false;
+          }
+        }
+
+        if (!preferredDate) {
+          document.getElementById("preferredDateErr").innerText =
+            "Please select a preferred date";
+          isValid = false;
+        } else {
+          document.getElementById("preferredDateErr").innerText = "";
+        }
+
+        if (!classType) {
+          document.getElementById("classTypeErr").innerText =
+            "Please select a class type";
+          isValid = false;
+        } else {
+          document.getElementById("classTypeErr").innerText = "";
+        }
+
+        if (!classAvail || classSlots[classAvail] <= 0) {
+          document.getElementById("classAvailErr").innerText =
+            "Please select an available class slot";
+          isValid = false;
+          alert("Selected slot is filled up, please select an available slot");
+        } else {
+          document.getElementById("classAvailErr").innerText = "";
+        }
+
+        if (!numberOfPer || numberOfPer < 1) {
+          document.getElementById("numberOfPerErr").innerText =
+            "Please input a valid number of participants";
+          isValid = false;
+        } else {
+          document.getElementById("numberOfPerErr").innerText = "";
+        }
+
+        if (isValid) {
+          // Calculate total cost
+          let totalCost = classPrices[classType] * numberOfPer;
+
+          // Update class slots availability
+          classSlots[classAvail] -= 1;
+          localStorage.setItem("classSlots", JSON.stringify(classSlots));
+
+          // Display the summary
+          summary.innerHTML = `
+                    <h3>Booking Summary:</h3>
+                    <p>Name: ${firstName} ${lastName}</p>
+                    <p>Email: ${email}</p>
+                    <p>Phone: ${phonenum}</p>
+                    <p>Age: ${
+                      new Date().getFullYear() - new Date(age).getFullYear()
+                    } ${gender}</p>
+                    ${
+                      parentFullName
+                        ? `<p>Guardian: ${parentFullName}, ${parentPhone}, ${parentEmail}</p>`
+                        : ""
+                    }
+                    <p>Preferred Date: ${preferredDate}</p>
+                    <p>Class Type: ${
+                      classType.charAt(0).toUpperCase() + classType.slice(1)
+                    }</p>
+                    <p>Class Slot: ${classAvail}</p>
+                    <p>Number of Participants: ${numberOfPer}</p>
+                    <p><strong>Total Cost: $${totalCost}</strong></p>
+                `;
+        }
+      });
+    </script>
+  </body>
+</html>
